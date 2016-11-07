@@ -122,7 +122,7 @@
 			panel {
 				#address-cells = <1>;
 				#size-cells = <0>;
-				compatible = "olimex,lcd-olinuxino-43-ts";
+				compatible = "innolux,at043tn24";
 				backlight = <&backlight>;
 
 				port@0 {
