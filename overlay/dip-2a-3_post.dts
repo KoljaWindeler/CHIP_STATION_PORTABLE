@@ -84,82 +84,82 @@
 				// define buttons
 				button@00 {
 					label = "GPIO right";
-					linux,code = <0x6a>; // hex
+					linux,code = <0x4d>; // hex
 					gpios = <&csp_keys 0 GPIO_ACTIVE_LOW>; // pin 0.0, "1>" = active_low
 				};
 				button@01 {
-					label = "GPIO left";
-					linux,code = <0x69>;
+					label = "GPIO down";
+					linux,code = <0x50>;
 					gpios = <&csp_keys 1 GPIO_ACTIVE_LOW>; // pin 0.1, active_low
 				};
 				button@02 {
 					label = "GPIO up";
-					linux,code = <0x67>;
+					linux,code = <0x48>;
 					gpios = <&csp_keys 2 GPIO_ACTIVE_LOW>; // pin 0.2, active_low
 				};
 				button@03 {
-					label = "GPIO down";
-					linux,code = <0x6c>;
+					label = "GPIO left";
+					linux,code = <0x4b>;
 					gpios = <&csp_keys 3 GPIO_ACTIVE_LOW>; // pin 0.3, active_low
 				};
 				button@04 {
-					label = "GPIO x";
-					linux,code = <0x2d>;
+					label = "L_trigger_5";
+					linux,code = <0x4c>;
 					gpios = <&csp_keys 4 GPIO_ACTIVE_LOW>; // pin 0.4, active_low
 				};
 				button@05 {
-					label = "GPIO y";
-					linux,code = <0x15>;
+					label = "vol+";
+					linux,code = <0x7d>;
 					gpios = <&csp_keys 5 GPIO_ACTIVE_LOW>; // pin 0.5, active_low
 				};
 				button@06 {
-					label = "GPIO enter";
-					linux,code = <0x1c>;
+					label = "vol-";
+					linux,code = <0x7c>;
 					gpios = <&csp_keys 6 GPIO_ACTIVE_LOW>; // pin 0.6, active_low
 				};
 				button@07 {
-					label = "GPIO esc";
-					linux,code = <0x01>;
+					label = "dipl_d";
+					linux,code = <0x20>;
 					gpios = <&csp_keys 7 GPIO_ACTIVE_LOW>; // pin 0.7, active_low
 				};
 				button@10 {
-					label = "GPIO right";
-					linux,code = <0x1a>; // hex
+					label = "mute_m";
+					linux,code = <0x32>; // hex
 					gpios = <&csp_keys 8 GPIO_ACTIVE_LOW>; // pin 1.0, active_low
 				};
 				button@11 {
-					label = "GPIO left";
-					linux,code = <0x19>;
+					label = "r_trigger_enter";
+					linux,code = <0x1c>;
 					gpios = <&csp_keys 9 GPIO_ACTIVE_LOW>; // pin 1.1, active_low
 				};
 				button@12 {
-					label = "GPIO up";
-					linux,code = <0x17>;
+					label = "select_backspace";
+					linux,code = <0x0e>;
 					gpios = <&csp_keys 10 GPIO_ACTIVE_LOW>; // pin 1.2, active_low
 				};
 				button@13 {
-					label = "GPIO down";
-					linux,code = <0x3c>;
+					label = "x_x";
+					linux,code = <0x2d>;
 					gpios = <&csp_keys 11 GPIO_ACTIVE_LOW>; // pin 1.3, active_low
 				};
 				button@14 {
-					label = "GPIO x";
-					linux,code = <0x1d>;
+					label = "square_a";
+					linux,code = <0x1e>;
 					gpios = <&csp_keys 12 GPIO_ACTIVE_LOW>; // pin 1.4, active_low
 				};
 				button@15 {
-					label = "GPIO y";
-					linux,code = <0x25>;
+					label = "triange_b";
+					linux,code = <0x30>;
 					gpios = <&csp_keys 13 GPIO_ACTIVE_LOW>; // pin 1.5, active_low
 				};
 				button@16 {
-					label = "GPIO enter";
+					label = "circle_y";
 					linux,code = <0x2c>;
 					gpios = <&csp_keys 14 GPIO_ACTIVE_LOW>; // pin 1.6, active_low
 				};
 				button@17 {
-					label = "GPIO esc";
-					linux,code = <0x21>;
+					label = "start_space";
+					linux,code = <0x39>;
 					gpios = <&csp_keys 15 GPIO_ACTIVE_LOW>; // pin 1.7, active_low
 				};
 			};
