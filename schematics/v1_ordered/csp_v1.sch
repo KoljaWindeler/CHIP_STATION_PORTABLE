@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="7.7.0">
+<eagle version="7.6.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -19879,8 +19879,8 @@ Source: &lt;a href= "http://www.hirose.co.jp/cataloge_hp/e58605370.pdf"&gt;Data 
 <connect gate="G$1" pin="XIO-P2" pad="XIO-P2"/>
 <connect gate="G$1" pin="XIO-P3" pad="XIO-P3"/>
 <connect gate="G$1" pin="XIO-P4" pad="XIO-P4"/>
-<connect gate="G$1" pin="XIO-P5" pad="XIO-P6"/>
-<connect gate="G$1" pin="XIO-P6" pad="XIO-P5"/>
+<connect gate="G$1" pin="XIO-P5" pad="XIO-P5"/>
+<connect gate="G$1" pin="XIO-P6" pad="XIO-P6"/>
 <connect gate="G$1" pin="XIO-P7" pad="XIO-P7"/>
 <connect gate="G$1" pin="Y1" pad="Y1"/>
 <connect gate="G$1" pin="Y2" pad="Y2"/>
@@ -28027,7 +28027,7 @@ Source: &lt;a href= "http://www.hirose.co.jp/cataloge_hp/e58605370.pdf"&gt;Data 
 <net name="GP2" class="0">
 <segment>
 <wire x1="500.38" y1="152.4" x2="515.62" y2="152.4" width="0.1524" layer="91"/>
-<label x="505.46" y="152.4" size="1.778" layer="95" font="vector" ratio="12"/>
+<label x="502.92" y="152.4" size="1.778" layer="95" font="vector" ratio="12"/>
 <pinref part="J1" gate="G$1" pin="XIO-P3"/>
 </segment>
 </net>
@@ -28047,13 +28047,6 @@ Source: &lt;a href= "http://www.hirose.co.jp/cataloge_hp/e58605370.pdf"&gt;Data 
 <wire x1="309.88" y1="246.38" x2="312.42" y2="246.38" width="0.1524" layer="91"/>
 <junction x="312.42" y="246.38"/>
 <label x="426.72" y="203.2" size="1.778" layer="95"/>
-</segment>
-</net>
-<net name="GP5" class="0">
-<segment>
-<wire x1="467.36" y1="147.32" x2="454.66" y2="147.32" width="0.1524" layer="91"/>
-<label x="454.66" y="147.32" size="1.778" layer="95" font="vector" ratio="12"/>
-<pinref part="J1" gate="G$1" pin="XIO-P6"/>
 </segment>
 </net>
 <net name="SPI-CLK" class="0">
@@ -29533,9 +29526,9 @@ Source: &lt;a href= "http://www.hirose.co.jp/cataloge_hp/e58605370.pdf"&gt;Data 
 <junction x="312.42" y="48.26"/>
 </segment>
 <segment>
-<wire x1="500.38" y1="149.86" x2="515.62" y2="149.86" width="0.1524" layer="91"/>
-<label x="505.46" y="149.86" size="1.778" layer="95" font="vector" ratio="12"/>
-<pinref part="J1" gate="G$1" pin="XIO-P5"/>
+<wire x1="467.36" y1="147.32" x2="452.12" y2="147.32" width="0.1524" layer="91"/>
+<label x="452.12" y="147.32" size="1.778" layer="95" font="vector" ratio="12"/>
+<pinref part="J1" gate="G$1" pin="XIO-P6"/>
 </segment>
 </net>
 <net name="!CHARGE_LED" class="0">
@@ -29550,7 +29543,7 @@ Source: &lt;a href= "http://www.hirose.co.jp/cataloge_hp/e58605370.pdf"&gt;Data 
 </segment>
 <segment>
 <wire x1="500.38" y1="147.32" x2="515.62" y2="147.32" width="0.1524" layer="91"/>
-<label x="505.46" y="147.32" size="1.778" layer="95" font="vector" ratio="12"/>
+<label x="502.92" y="147.32" size="1.778" layer="95" font="vector" ratio="12"/>
 <pinref part="J1" gate="G$1" pin="XIO-P7"/>
 </segment>
 </net>
@@ -29724,6 +29717,13 @@ Source: &lt;a href= "http://www.hirose.co.jp/cataloge_hp/e58605370.pdf"&gt;Data 
 <wire x1="452.12" y1="200.66" x2="340.36" y2="200.66" width="0.1524" layer="91"/>
 <wire x1="340.36" y1="200.66" x2="340.36" y2="205.74" width="0.1524" layer="91"/>
 <label x="426.72" y="200.66" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="GP5" class="0">
+<segment>
+<wire x1="500.38" y1="149.86" x2="515.62" y2="149.86" width="0.1524" layer="91"/>
+<label x="502.92" y="149.86" size="1.778" layer="95" font="vector" ratio="12"/>
+<pinref part="J1" gate="G$1" pin="XIO-P5"/>
 </segment>
 </net>
 </nets>
