@@ -17,7 +17,8 @@
 blink_cleanup()
 {
   # Only un-export ports that we actually exported.
-  if [ -n "$WARN_BATTERY_GPIO_SET" ]; then gpio_unexport $WARN_BATTERY_GPIO; fi
+  if [ -n "$WARN_BATTERY_GPIO" ]; then gpio_unexport $WARN_BATTERY_GPIO; fi
+  if [ -n "$CHR_LED_GPIO" ]; then gpio_unexport $CHR_LED_GPIO; fi
 }
 
 
@@ -35,7 +36,7 @@ blink_error()
     echo "blink: $1"
     shift    # get next error string into $1
   done
-  exit 1
+ # exit 1
 }
 
 
@@ -59,6 +60,7 @@ gpio_export()
     return
   fi
   echo $GPIO >/sys/class/gpio/export
+  echo "export "$GPIO
   return $?
 }
 
@@ -136,19 +138,24 @@ gpio_input()
 
 read_config()
 {
-  MON_RESET=1  # shutdown on button press
+	XIO_LABEL_FILE=`grep -l pcf8574a /sys/class/gpio/*/*label`
+	XIO_BASE_FILE=`dirname $XIO_LABEL_FILE`/base
+	XIO_BASE=`cat $XIO_BASE_FILE`
+	echo "Base is "$XIO_BASE
 
-  MON_BATTERY= 5 # shutdown on empty (5%) battery
-  WARN_BATTERY=15 # blink at 10% remaining battery life
+	MON_RESET=1  # shutdown on button press
+
+	MON_BATTERY=5 # shutdown on empty (5%) battery
+	WARN_BATTERY=65 # blink at 10% remaining battery life
   
-  WARN_BATTERY_GPIO=GPIO_HASH["XIO_P6"] # blink on pin p6
-  WARN_BATTERY_DEFAULT_VALUE=1 # led is ON when NOT warning (blinking)
-  WARN_BATTERY_LED_STATUS=
+	WARN_BATTERY_GPIO=$(($XIO_BASE+6)) # blink on pin p6
+	WARN_BATTERY_DEFAULT_VALUE=1 # led is ON when NOT warning (blinking)
+	WARN_BATTERY_LED_STATUS=
   
-  CHR_LED_GPIO=GPIO_HASH["XIO_P7"] # charge LED on pin p7
-  CHR_LED_DEFAULT_VALUE=0 # led is OFF when NOT charging
-  CHR_LED_STATUS=
- }
+	CHR_LED_GPIO=$(($XIO_BASE+7)) # charge LED on pin p7
+	CHR_LED_DEFAULT_VALUE=0 # led is OFF when NOT charging
+	CHR_LED_STATUS=
+}
 
 
 # Group init functions related to GPIO
@@ -162,14 +169,14 @@ init_chr_gpio()
     gpio_direction $CHR_LED_GPIO out
 
     CHR_LED_STATUS=$CHR_LED_DEFAULT_VALUE
-    gpio_output $CHR_LED_GPIO $GPIO_LED
+    gpio_output $CHR_LED_GPIO $CHR_LED_STATUS
   fi
 }
 
 invert_chr_gpio()
 {
   if [ -n "$CHR_LED_GPIO" ]; then :
-    CHR_LED_STATUS=$(( 1 - $CHR_LED_STATUS ))
+    CHR_LED_STATUS=$((1-CHR_LED_STATUS))
     gpio_output $CHR_LED_GPIO $CHR_LED_STATUS
 	echo "set chr: $CHR_LED_STATUS"
   fi
@@ -178,7 +185,7 @@ invert_chr_gpio()
 invert_pwr_gpio()
 {
   if [ -n "$WARN_BATTERY_GPIO" ]; then :
-    WARN_BATTERY_LED_STATUS=$(( 1 - $WARN_BATTERY_LED_STATUS ))
+    WARN_BATTERY_LED_STATUS=$((1-WARN_BATTERY_LED_STATUS))
 	gpio_output $WARN_BATTERY_GPIO $WARN_BATTERY_LED_STATUS
 	echo "set pwr: $WARN_BATTERY_LED_STATUS"
   fi
@@ -246,24 +253,38 @@ init_mon_battery()
 
 sample_mon_battery()
 {
-  if [ -n "$MON_BATTERY" ]; then :
-    # Get battery gauge.
-    REGB9H=$(i2cget -f -y 0 0x34 0xb9)    # Read AXP209 register B9H
-    MON_BATTERY_SAMPLE_PERC=$(($REGB9H))  # convert to decimal
+	if [ -n "$MON_BATTERY" ]; then :
+    		# Get battery gauge.
+    		REGB9H=$(i2cget -f -y 0 0x34 0xb9)    # Read AXP209 register B9H
+    		MON_BATTERY_SAMPLE_PERC=$(($REGB9H))  # convert to decimal
+		#echo $MON_BATTERY_SAMPLE_PERC"%"
 
-    # On CHIP, the battery detection (bit 5, reg 01H) does not work (stuck "on"
-    # even when battery is disconnected).  Also, when no battery connected,
-    # the battery discharge current varies wildly (probably a floating lead).  
-    # So assume the battery is NOT discharging when MicroUSB and/or CHG-IN
-    # are present (i.e. when chip is "powered").
-    REG00H=$(i2cget -f -y 0 0x34 0x00)    # Read AXP209 register 00H
-    PWR_BITS=$(( $REG00H & 0x50 ))        # ACIN usalbe and VBUS usable bits
-    if [ $PWR_BITS -ne 0 ]; then :
-      MON_BATTERY_SAMPLE_PWR=1
-    else
-      MON_BATTERY_SAMPLE_PWR=0
-    fi
-  fi
+    		# On CHIP, the battery detection (bit 5, reg 01H) does not work (stuck "on"
+    		# even when battery is disconnected).  Also, when no battery connected,
+    		# the battery discharge current varies wildly (probably a floating lead).  
+    		# So assume the battery is NOT discharging when MicroUSB and/or CHG-IN
+    		# are present (i.e. when chip is "powered").
+    		REG00H=$(i2cget -f -y 0 0x34 0x00)    # Read AXP209 register 00H
+    		PWR_BITS=$(( $REG00H & 0x50 ))        # ACIN usalbe and VBUS usable bits
+		if [ $PWR_BITS -ne 0 ]; then :
+			MON_BATTERY_SAMPLE_PWR=1
+		else
+			MON_BATTERY_SAMPLE_PWR=0
+		fi
+
+		BAT_ICHG_MSB=$(i2cget -y -f 0 0x34 0x7A)
+		BAT_ICHG_LSB=$(i2cget -y -f 0 0x34 0x7B)
+		#echo $BAT_ICHG_MSB $BAT_ICHG_LSB
+		BAT_ICHG_BIN=$(( $(($BAT_ICHG_MSB << 4)) | $(($(($BAT_ICHG_LSB & 0x0F)) )) ))
+		BAT_CHR_CUR=$(echo "($BAT_ICHG_BIN*0.5)"|bc)
+		BAT_CHR_CUR=${BAT_CHR_CUR%%.*}
+
+		POWER_OP_MODE=$(i2cget -y -f 0 0x34 0x01)
+		#echo $POWER_OP_MODE
+
+		CHARG_IND=$(($(($POWER_OP_MODE&0x40))/64))  # divide by 64 is like shifting rigth 6 times
+
+  	fi
 }
 
 check_shut_battery()
@@ -278,63 +299,66 @@ check_shut_battery()
 
 check_warn_battery()
 {
-  if [ -n "$MON_BATTERY" -a -n "$WARN_BATTERY" ]; then :
-    # Check if already in temperature warning state.
-    if [ -n "$BATTERY_WARN_STATE" ]; then :
-		# To prevent rapid flapping between warn and non-warn, while
-		# in battery warning state, require gauge rise 2% above
-		# warning level to exit warning state (adds hysteresis).
-		TEST_BATTERY=$(( $WARN_BATTERY + 2 ))
-		if [ $MON_BATTERY_SAMPLE_PWR -eq 0 -a \
-			$MON_BATTERY_SAMPLE_PERC -lt $TEST_BATTERY ]; then :
-			# Battery still in warning was  Already in warning state.
-			# blink power led
-			invert_pwr_gpio
-		else :
-			# Battery out of warning.  Exit warning state.
-			echo "Blink: battery warning resolved."
-			BATTERY_WARN_STATE=
-			if [ -n "$WARN_BATTERY_GPIO" ]; then :
-				if [$WARN_BATTERY_LED_STATUS -ne $WARN_BATTERY_DEFAULT_VALUE]; then
-				# flip LED to non - default, (default is off, so it should be on if fully charged)
+	if [ -n "$MON_BATTERY" -a -n "$WARN_BATTERY" ]; then :
+		# Check if already in temperature warning state.
+		if [ -n "$BATTERY_WARN_STATE" ]; then :
+			# To prevent rapid flapping between warn and non-warn, while
+			# in battery warning state, require gauge rise 2% above
+			# warning level to exit warning state (adds hysteresis).
+			TEST_BATTERY=$(( $WARN_BATTERY + 2 ))
+			if [ $MON_BATTERY_SAMPLE_PWR -eq 0 -a \
+				$MON_BATTERY_SAMPLE_PERC -lt $TEST_BATTERY ]; then :
+				# Battery still in warning was  Already in warning state.
+				# blink power led
 				invert_pwr_gpio
-			fi
-		fi
-	else :
-		# Not in warning state, see if need to enter it.
-		TEST_BATTERY=$(( $WARN_BATTERY ))
-		if [ $MON_BATTERY_SAMPLE_PWR -eq 0 -a \
-			$MON_BATTERY_SAMPLE_PERC -lt $TEST_BATTERY ]; then :
-			# Battery entering warning state.
-			echo "Blink: Warning: battery."
-			BATTERY_WARN_STATE=1
-			# blink power led
-			invert_pwr_gpio
-		else :
-			# Battery not in warning.
-		fi
-	fi
-	
-	if [ -n "$CHR_LED_GPIO" ]; then :
-		if [$MON_BATTERY_SAMPLE_PWR -eq 1]; then
-			# power connected
-			if [$MON_BATTERY_SAMPLE_PERC -lt 97]; then
-				#charging, blink chr LED
-				invert_chr_gpio
 			else :
-				# fully charged, turn it ON (opposite of default (off))
-				if [$CHR_LED_STATUS -eq $CHR_LED_DEFAULT_VALUE]; then
-					# flip LED to non - default, (default is off, so it should be on if fully charged)
-					invert_chr_gpio
+				# Battery out of warning.  Exit warning state.
+				echo "Blink: battery warning resolved."
+				BATTERY_WARN_STATE=
+				if [ -n "$WARN_BATTERY_GPIO" ]; then :
+					if [ $WARN_BATTERY_LED_STATUS -ne $WARN_BATTERY_DEFAULT_VALUE ]; then
+						# flip LED to non - default, (default is off, so it should be on if fully charged)
+						invert_pwr_gpio
+					fi
 				fi
 			fi
 		else :
-			# no power connected, led NOT in default mode, flip to default
-			if [$CHR_LED_STATUS -ne $CHR_LED_DEFAULT_VALUE]; then
-				invert_chr_gpio
+			# Not in warning state, see if need to enter it.
+			TEST_BATTERY=$(( $WARN_BATTERY ))
+			if [ $MON_BATTERY_SAMPLE_PWR -eq 0 -a \
+				$MON_BATTERY_SAMPLE_PERC -lt $TEST_BATTERY ]; then :
+				# Battery entering warning state.
+				echo "Blink: Warning: battery."
+				BATTERY_WARN_STATE=1
+				# blink power led
+				invert_pwr_gpio
+			else :
+				# Battery not in warning.
 			fi
 		fi
-  fi
+
+		if [ -n "$CHR_LED_GPIO" ]; then :
+			if [ $MON_BATTERY_SAMPLE_PWR -eq 1 ]; then :
+				# power connected
+				if [ $CHARG_IND -eq 1 ]; then :
+					#charging, blink chr LED
+					echo "charing bink chr led" $MON_BATTERY_SAMPLE_PERC
+					invert_chr_gpio
+				else :
+					# fully charged, turn it ON (opposite of default (off))
+					if [ $CHR_LED_STATUS -eq $CHR_LED_DEFAULT_VALUE ]; then :
+						# flip LED to non - default, (default is off, so it should be on if fully charged)
+						invert_chr_gpio
+					fi
+				fi
+			else :
+				# no power connected, led NOT in default mode, flip to default
+				if [ $CHR_LED_STATUS -ne $CHR_LED_DEFAULT_VALUE ]; then :
+					invert_chr_gpio
+				fi
+			fi
+		fi
+	fi
 }
 
 
@@ -348,32 +372,12 @@ shutdown_now()
 }
 
 #########################################################################
-# Create hash (associative array) for pins
-declare -A GPIO_HASH
-# The XIO pins change their base number across different versions of CHIPOS.
-# Derive the correct base number.
-XIO_LABEL_FILE=`grep -l pcf8574a /sys/class/gpio/*/*label`
-XIO_BASE_FILE=`dirname $XIO_LABEL_FILE`/base
-XIO_BASE=`cat $XIO_BASE_FILE`
-GPIO_HASH["XIO_P0"]=$XIO_BASE
-GPIO_HASH["XIO_P1"]=$((XIO_BASE + 1))
-GPIO_HASH["XIO_P2"]=$((XIO_BASE + 2))
-GPIO_HASH["XIO_P3"]=$((XIO_BASE + 3))
-GPIO_HASH["XIO_P4"]=$((XIO_BASE + 4))
-GPIO_HASH["XIO_P5"]=$((XIO_BASE + 5))
-GPIO_HASH["XIO_P6"]=$((XIO_BASE + 6))
-GPIO_HASH["XIO_P7"]=$((XIO_BASE + 7))
-
-# Scan the hash and create individual shell variables for each pin
-for GPIO in ${!GPIO_HASH[*]}; do :
-  eval $GPIO=${GPIO_HASH["$GPIO"]}
-done
-
 echo "blink: starting"
 # Initialize everything
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 read_config
 
+init_chr_gpio
 init_mon_reset # reset button push
 init_mon_battery # shutdown on battery init
 
