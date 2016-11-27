@@ -127,22 +127,22 @@
 				// define buttons
 				button@00 {
 					label = "GPIO right";
-					linux,code = <0x4d>; // hex
+					linux,code = <0x6a>; // hex
 					gpios = <&csp_keys 0 GPIO_ACTIVE_LOW>; // pin 0.0, "1>" = active_low
 				};
 				button@01 {
 					label = "GPIO down";
-					linux,code = <0x50>;
+					linux,code = <0x6c>;
 					gpios = <&csp_keys 1 GPIO_ACTIVE_LOW>; // pin 0.1, active_low
 				};
 				button@02 {
 					label = "GPIO up";
-					linux,code = <0x48>;
+					linux,code = <0x67>;
 					gpios = <&csp_keys 2 GPIO_ACTIVE_LOW>; // pin 0.2, active_low
 				};
 				button@03 {
 					label = "GPIO left";
-					linux,code = <0x4b>;
+					linux,code = <0x69>;
 					gpios = <&csp_keys 3 GPIO_ACTIVE_LOW>; // pin 0.3, active_low
 				};
 				button@04 {
