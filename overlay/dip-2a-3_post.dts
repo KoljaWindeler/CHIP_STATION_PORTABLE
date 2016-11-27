@@ -146,8 +146,8 @@
 					gpios = <&csp_keys 3 GPIO_ACTIVE_LOW>; // pin 0.3, active_low
 				};
 				button@04 {
-					label = "L_trigger_5";
-					linux,code = <0x4c>;
+					label = "L_trigger_O";
+					linux,code = <0x18>; 
 					gpios = <&csp_keys 4 GPIO_ACTIVE_LOW>; // pin 0.4, active_low
 				};
 				button@05 {
