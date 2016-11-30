@@ -27796,13 +27796,11 @@ with open collector; LM139/LM239/LM339/LM2901/LM3302&lt;br&gt;</description>
 <wire x1="408.94" y1="45.72" x2="408.94" y2="99.06" width="0.4064" layer="94" style="shortdash"/>
 <wire x1="467.36" y1="45.72" x2="467.36" y2="99.06" width="0.4064" layer="94" style="shortdash"/>
 <wire x1="467.36" y1="45.72" x2="408.94" y2="45.72" width="0.4064" layer="94" style="shortdash"/>
-<wire x1="332.74" y1="231.14" x2="233.68" y2="231.14" width="0.4064" layer="94" style="shortdash"/>
-<wire x1="233.68" y1="45.72" x2="233.68" y2="231.14" width="0.4064" layer="94" style="shortdash"/>
+<wire x1="360.68" y1="152.4" x2="233.68" y2="152.4" width="0.4064" layer="94" style="shortdash"/>
+<wire x1="233.68" y1="45.72" x2="233.68" y2="152.4" width="0.4064" layer="94" style="shortdash"/>
 <wire x1="360.68" y1="45.72" x2="233.68" y2="45.72" width="0.4064" layer="94" style="shortdash"/>
-<wire x1="360.68" y1="170.18" x2="360.68" y2="45.72" width="0.4064" layer="94" style="shortdash"/>
-<wire x1="360.68" y1="170.18" x2="332.74" y2="170.18" width="0.4064" layer="94" style="shortdash"/>
-<wire x1="332.74" y1="231.14" x2="332.74" y2="170.18" width="0.4064" layer="94" style="shortdash"/>
-<text x="251.46" y="228.6" size="1.778" layer="94" rot="MR0">GPIO extender</text>
+<wire x1="360.68" y1="152.4" x2="360.68" y2="45.72" width="0.4064" layer="94" style="shortdash"/>
+<text x="251.46" y="149.86" size="1.778" layer="94" rot="MR0">GPIO extender</text>
 <text x="551.18" y="172.72" size="1.778" layer="94" rot="MR0">SD card</text>
 <text x="525.78" y="290.83" size="1.778" layer="94" rot="MR0">Display</text>
 <text x="419.1" y="96.52" size="1.778" layer="94" rot="MR0">inverter</text>
@@ -27814,6 +27812,15 @@ v1 -&gt; v2
 - moved Bat pads closer to bat
 - removed all pullup (not needed)
 - increased footprint for all ZIF adapter</text>
+<text x="251.46" y="231.14" size="1.778" layer="94" rot="MR0">Joystick</text>
+<wire x1="233.68" y1="233.68" x2="233.68" y2="154.94" width="0.4064" layer="94" style="shortdash"/>
+<wire x1="335.28" y1="233.68" x2="335.28" y2="154.94" width="0.4064" layer="94" style="shortdash"/>
+<wire x1="233.68" y1="233.68" x2="335.28" y2="233.68" width="0.4064" layer="94" style="shortdash"/>
+<wire x1="233.68" y1="154.94" x2="335.28" y2="154.94" width="0.4064" layer="94" style="shortdash"/>
+<text x="462.28" y="154.94" size="1.778" layer="91">left</text>
+<text x="508" y="154.94" size="1.778" layer="91">right</text>
+<text x="508" y="149.86" size="1.778" layer="91">up</text>
+<text x="508" y="152.4" size="1.778" layer="91">down</text>
 </plain>
 <instances>
 <instance part="FRAME1" gate="G$1" x="226.06" y="40.64"/>

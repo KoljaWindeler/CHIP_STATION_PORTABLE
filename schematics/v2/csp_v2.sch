@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="7.6.0">
+<eagle version="7.7.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -19538,6 +19538,11 @@ Source: &lt;a href= "http://www.hirose.co.jp/cataloge_hp/e58605370.pdf"&gt;Data 
 <smd name="P$1" x="-11.7" y="0.65" dx="1.8" dy="3.5" layer="1"/>
 <smd name="P$2" x="11.6" y="0.65" dx="1.8" dy="3.5" layer="1"/>
 </package>
+<package name="SMD1,36-3">
+<description>&lt;b&gt;SMD PAD&lt;/b&gt;</description>
+<text x="-0.8" y="-2.4" size="1.27" layer="25" rot="R90">&gt;NAME</text>
+<smd name="P$1" x="0" y="0" dx="1.36" dy="3" layer="1"/>
+</package>
 </packages>
 <symbols>
 <symbol name="2X20CHIP">
@@ -19781,6 +19786,13 @@ Source: &lt;a href= "http://www.hirose.co.jp/cataloge_hp/e58605370.pdf"&gt;Data 
 <wire x1="83.28" y1="6.42" x2="0" y2="6.42" width="0.254" layer="94"/>
 <wire x1="0" y1="6.42" x2="0" y2="0" width="0.254" layer="94"/>
 <text x="1.3" y="1.3" size="3.81" layer="94" font="vector">CHIP DIP LOGO 10x10 SILk</text>
+</symbol>
+<symbol name="PAD">
+<wire x1="-1.016" y1="1.016" x2="1.016" y2="-1.016" width="0.254" layer="94"/>
+<wire x1="-1.016" y1="-1.016" x2="1.016" y2="1.016" width="0.254" layer="94"/>
+<text x="-1.143" y="1.8542" size="1.778" layer="95">&gt;NAME</text>
+<text x="-1.143" y="-3.302" size="1.778" layer="96">&gt;VALUE</text>
+<pin name="P" x="2.54" y="0" visible="off" length="short" direction="pas" rot="R180"/>
 </symbol>
 </symbols>
 <devicesets>
@@ -21007,6 +21019,22 @@ Source: &lt;a href= "http://www.hirose.co.jp/cataloge_hp/e58605370.pdf"&gt;Data 
 <attribute name="OC_FARNELL" value="1324556" constant="no"/>
 <attribute name="OC_NEWARK" value="34M6178" constant="no"/>
 </technology>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="SMD1.36X3" prefix="PAD" uservalue="yes">
+<description>&lt;b&gt;SMD PAD&lt;/b&gt;</description>
+<gates>
+<gate name="1" symbol="PAD" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="SMD1,36-3">
+<connects>
+<connect gate="1" pin="P" pad="P$1"/>
+</connects>
+<technologies>
+<technology name=""/>
 </technologies>
 </device>
 </devices>
@@ -27748,10 +27776,10 @@ with open collector; LM139/LM239/LM339/LM2901/LM3302&lt;br&gt;</description>
 <part name="R2" library="rcl" deviceset="R-EU_" device="M0805" value="20k "/>
 <part name="R3" library="rcl" deviceset="R-EU_" device="M0805" value="20k "/>
 <part name="R9" library="rcl" deviceset="R-EU_" device="M0805" value="10k "/>
-<part name="BAT1" library="wirepad" deviceset="SMD2" device="" value="BTN"/>
-<part name="BAT2" library="wirepad" deviceset="SMD2" device="" value="BTN"/>
-<part name="BAT3" library="wirepad" deviceset="SMD2" device="" value="BTN"/>
-<part name="BAT4" library="wirepad" deviceset="SMD2" device="" value="BTN"/>
+<part name="P_IN" library="JKW_CHIP" deviceset="SMD1.36X3" device="" value="BTN"/>
+<part name="UD" library="JKW_CHIP" deviceset="SMD1.36X3" device="" value="BTN"/>
+<part name="LR" library="JKW_CHIP" deviceset="SMD1.36X3" device="" value="BTN"/>
+<part name="G_IN" library="JKW_CHIP" deviceset="SMD1.36X3" device="" value="BTN"/>
 <part name="SUPPLY9" library="Keyboard v0.3" deviceset="VCC3V3" device=""/>
 <part name="U$22" library="Keyboard v0.2" deviceset="GND" device=""/>
 </parts>
@@ -28053,16 +28081,16 @@ v1 -&gt; v2
 <attribute name="NAME" x="303.7586" y="212.09" size="1.778" layer="95" rot="R270"/>
 <attribute name="VALUE" x="306.578" y="212.09" size="1.778" layer="96" rot="R270"/>
 </instance>
-<instance part="BAT1" gate="1" x="238.76" y="200.66" smashed="yes" rot="MR180">
+<instance part="P_IN" gate="1" x="238.76" y="200.66" smashed="yes" rot="MR180">
 <attribute name="NAME" x="237.617" y="203.8858" size="1.778" layer="95" rot="MR180"/>
 </instance>
-<instance part="BAT2" gate="1" x="238.76" y="195.58" smashed="yes" rot="MR180">
+<instance part="UD" gate="1" x="238.76" y="195.58" smashed="yes" rot="MR180">
 <attribute name="NAME" x="237.617" y="198.8058" size="1.778" layer="95" rot="MR180"/>
 </instance>
-<instance part="BAT3" gate="1" x="238.76" y="190.5" smashed="yes" rot="MR180">
+<instance part="LR" gate="1" x="238.76" y="190.5" smashed="yes" rot="MR180">
 <attribute name="NAME" x="237.617" y="193.7258" size="1.778" layer="95" rot="MR180"/>
 </instance>
-<instance part="BAT4" gate="1" x="238.76" y="185.42" smashed="yes" rot="MR180">
+<instance part="G_IN" gate="1" x="238.76" y="185.42" smashed="yes" rot="MR180">
 <attribute name="NAME" x="237.617" y="188.6458" size="1.778" layer="95" rot="MR180"/>
 </instance>
 <instance part="SUPPLY9" gate="+5V" x="243.84" y="210.82"/>
@@ -28528,7 +28556,7 @@ v1 -&gt; v2
 <junction x="309.88" y="185.42"/>
 </segment>
 <segment>
-<pinref part="BAT4" gate="1" pin="P"/>
+<pinref part="G_IN" gate="1" pin="P"/>
 <wire x1="241.3" y1="185.42" x2="243.84" y2="185.42" width="0.1524" layer="91"/>
 <wire x1="243.84" y1="185.42" x2="243.84" y2="177.8" width="0.1524" layer="91"/>
 <pinref part="U$22" gate="M" pin="GND"/>
@@ -28649,7 +28677,7 @@ v1 -&gt; v2
 <junction x="309.88" y="215.9"/>
 </segment>
 <segment>
-<pinref part="BAT1" gate="1" pin="P"/>
+<pinref part="P_IN" gate="1" pin="P"/>
 <wire x1="241.3" y1="200.66" x2="243.84" y2="200.66" width="0.1524" layer="91"/>
 <wire x1="243.84" y1="200.66" x2="243.84" y2="208.28" width="0.1524" layer="91"/>
 <pinref part="SUPPLY9" gate="+5V" pin="VCC3V3"/>
@@ -29725,7 +29753,7 @@ v1 -&gt; v2
 </net>
 <net name="N$30" class="0">
 <segment>
-<pinref part="BAT2" gate="1" pin="P"/>
+<pinref part="UD" gate="1" pin="P"/>
 <wire x1="241.3" y1="195.58" x2="251.46" y2="195.58" width="0.1524" layer="91"/>
 <wire x1="251.46" y1="195.58" x2="251.46" y2="213.36" width="0.1524" layer="91"/>
 <pinref part="IC4" gate="A" pin="+IN"/>
@@ -29737,7 +29765,7 @@ v1 -&gt; v2
 </net>
 <net name="N$31" class="0">
 <segment>
-<pinref part="BAT3" gate="1" pin="P"/>
+<pinref part="LR" gate="1" pin="P"/>
 <wire x1="241.3" y1="190.5" x2="251.46" y2="190.5" width="0.1524" layer="91"/>
 <wire x1="251.46" y1="190.5" x2="251.46" y2="187.96" width="0.1524" layer="91"/>
 <pinref part="IC4" gate="C" pin="+IN"/>

@@ -27710,11 +27710,12 @@ Source: &lt;a href= "http://www.hirose.co.jp/cataloge_hp/e58605370.pdf"&gt;Data 
 <text x="525.78" y="290.83" size="1.778" layer="94" rot="MR0">Display</text>
 <text x="419.1" y="96.52" size="1.778" layer="94" rot="MR0">inverter</text>
 <text x="477.52" y="96.52" size="1.778" layer="94" rot="MR0">1wire</text>
-<text x="627.38" y="279.4" size="1.778" layer="91">Changelog
+<text x="627.38" y="279.4" size="1.778" layer="91" align="top-left">Changelog
 ===================
 v1 -&gt; v2
 - dcdc stepup controller 5v -&gt; 3.3V
-- moved Bat pads closer to bat</text>
+- moved Bat pads closer to bat
+- removed all pullup (not needed)</text>
 </plain>
 <instances>
 <instance part="FRAME1" gate="G$1" x="226.06" y="40.64"/>
