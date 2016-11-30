@@ -146,14 +146,14 @@ read_config()
 	MON_RESET=1  # shutdown on button press
 
 	MON_BATTERY=5 # shutdown on empty (5%) battery
-	WARN_BATTERY=65 # blink at 10% remaining battery life
+	WARN_BATTERY=20 # blink at 10% remaining battery life
   
 	WARN_BATTERY_GPIO=$(($XIO_BASE+6)) # blink on pin p6
-	WARN_BATTERY_DEFAULT_VALUE=1 # led is ON when NOT warning (blinking)
+	WARN_BATTERY_DEFAULT_VALUE=0 # led is ON when NOT warning (blinking) (pin has to be low)
 	WARN_BATTERY_LED_STATUS=
   
 	CHR_LED_GPIO=$(($XIO_BASE+7)) # charge LED on pin p7
-	CHR_LED_DEFAULT_VALUE=0 # led is OFF when NOT charging
+	CHR_LED_DEFAULT_VALUE=1 # led is OFF when NOT charging (pin has to be high)
 	CHR_LED_STATUS=
 }
 
@@ -257,7 +257,7 @@ sample_mon_battery()
     		# Get battery gauge.
     		REGB9H=$(i2cget -f -y 0 0x34 0xb9)    # Read AXP209 register B9H
     		MON_BATTERY_SAMPLE_PERC=$(($REGB9H))  # convert to decimal
-		#echo $MON_BATTERY_SAMPLE_PERC"%"
+		echo $MON_BATTERY_SAMPLE_PERC"%"
 
     		# On CHIP, the battery detection (bit 5, reg 01H) does not work (stuck "on"
     		# even when battery is disconnected).  Also, when no battery connected,
@@ -271,6 +271,7 @@ sample_mon_battery()
 		else
 			MON_BATTERY_SAMPLE_PWR=0
 		fi
+		echo "Power "$MON_BATTERY_SAMPLE_PWR
 
 		BAT_ICHG_MSB=$(i2cget -y -f 0 0x34 0x7A)
 		BAT_ICHG_LSB=$(i2cget -y -f 0 0x34 0x7B)
@@ -283,6 +284,7 @@ sample_mon_battery()
 		#echo $POWER_OP_MODE
 
 		CHARG_IND=$(($(($POWER_OP_MODE&0x40))/64))  # divide by 64 is like shifting rigth 6 times
+		echo "Charge ind "$CHARG_IND
 
   	fi
 }
@@ -346,6 +348,7 @@ check_warn_battery()
 					invert_chr_gpio
 				else :
 					# fully charged, turn it ON (opposite of default (off))
+					echo "charge state $CHR_LED_STATUS  $CHR_LED_DEFAULT_VALUE"
 					if [ $CHR_LED_STATUS -eq $CHR_LED_DEFAULT_VALUE ]; then :
 						# flip LED to non - default, (default is off, so it should be on if fully charged)
 						invert_chr_gpio

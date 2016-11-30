@@ -1,1 +1,0 @@
-python3 dip-header-generator.py CSP_EEPROM.img --vid 42 --pid 3 --vendor 'JKW' --product 'ChipStationPortable' --product-version 1
