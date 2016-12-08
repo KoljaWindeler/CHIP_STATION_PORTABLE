@@ -27910,7 +27910,6 @@ www.irf.com&lt;p&gt;
 <part name="U$2" library="JKW_CHIP" deviceset="LOGO_10X10_SILK" device=""/>
 <part name="U$5" library="JKW_CHIP" deviceset="LOGO_10X10_SILK" device=""/>
 <part name="SUPPLY10" library="Keyboard v0.3" deviceset="VCC3V3" device=""/>
-<part name="SUPPLY11" library="Keyboard v0.3" deviceset="VCC5V" device=""/>
 <part name="U$6" library="Keyboard v0.2" deviceset="GND" device=""/>
 <part name="SUPPLY12" library="Keyboard v0.3" deviceset="VCC3V3" device=""/>
 <part name="SUPPLY2" library="Keyboard v0.3" deviceset="VCC3V3" device=""/>
@@ -28205,7 +28204,6 @@ v1 -&gt; v2
 <instance part="U$2" gate="G$1" x="523.24" y="73.66"/>
 <instance part="U$5" gate="G$1" x="523.24" y="66.04"/>
 <instance part="SUPPLY10" gate="+5V" x="327.66" y="137.16"/>
-<instance part="SUPPLY11" gate="+5V" x="406.4" y="264.16"/>
 <instance part="U$6" gate="M" x="586.74" y="106.68"/>
 <instance part="SUPPLY12" gate="+5V" x="414.02" y="287.02"/>
 <instance part="SUPPLY2" gate="+5V" x="254" y="66.04"/>
@@ -28829,8 +28827,21 @@ v1 -&gt; v2
 <segment>
 <pinref part="U$27" gate="G$1" pin="IN"/>
 <pinref part="SUPPLY12" gate="+5V" pin="VCC3V3"/>
-<wire x1="422.91" y1="281.94" x2="414.02" y2="281.94" width="0.1524" layer="91"/>
+<wire x1="422.91" y1="281.94" x2="419.1" y2="281.94" width="0.1524" layer="91"/>
+<wire x1="419.1" y1="281.94" x2="414.02" y2="281.94" width="0.1524" layer="91"/>
 <wire x1="414.02" y1="281.94" x2="414.02" y2="284.48" width="0.1524" layer="91"/>
+<pinref part="C2" gate="G$1" pin="1"/>
+<pinref part="C4" gate="G$1" pin="1"/>
+<wire x1="419.1" y1="254" x2="419.1" y2="261.62" width="0.1524" layer="91"/>
+<wire x1="419.1" y1="261.62" x2="429.26" y2="261.62" width="0.1524" layer="91"/>
+<wire x1="429.26" y1="261.62" x2="429.26" y2="254" width="0.1524" layer="91"/>
+<junction x="429.26" y="261.62"/>
+<wire x1="429.26" y1="261.62" x2="435.61" y2="261.62" width="0.1524" layer="91"/>
+<pinref part="L2" gate="G$1" pin="2"/>
+<label x="408.94" y="262.89" size="1.778" layer="95"/>
+<wire x1="419.1" y1="261.62" x2="419.1" y2="281.94" width="0.1524" layer="91"/>
+<junction x="419.1" y="261.62"/>
+<junction x="419.1" y="281.94"/>
 </segment>
 <segment>
 <pinref part="SUPPLY2" gate="+5V" pin="VCC3V3"/>
@@ -28885,20 +28896,6 @@ v1 -&gt; v2
 <wire x1="576.58" y1="200.66" x2="566.42" y2="200.66" width="0.1524" layer="91"/>
 <wire x1="566.42" y1="200.66" x2="566.42" y2="198.12" width="0.1524" layer="91"/>
 <junction x="566.42" y="198.12"/>
-</segment>
-<segment>
-<pinref part="SUPPLY11" gate="+5V" pin="VCC5V"/>
-<wire x1="406.4" y1="261.62" x2="419.1" y2="261.62" width="0.1524" layer="91"/>
-<pinref part="C2" gate="G$1" pin="1"/>
-<pinref part="C4" gate="G$1" pin="1"/>
-<wire x1="419.1" y1="254" x2="419.1" y2="261.62" width="0.1524" layer="91"/>
-<junction x="419.1" y="261.62"/>
-<wire x1="419.1" y1="261.62" x2="429.26" y2="261.62" width="0.1524" layer="91"/>
-<wire x1="429.26" y1="261.62" x2="429.26" y2="254" width="0.1524" layer="91"/>
-<junction x="429.26" y="261.62"/>
-<wire x1="429.26" y1="261.62" x2="435.61" y2="261.62" width="0.1524" layer="91"/>
-<pinref part="L2" gate="G$1" pin="2"/>
-<label x="408.94" y="262.89" size="1.778" layer="95"/>
 </segment>
 <segment>
 <pinref part="Q1" gate="G$1" pin="D"/>
